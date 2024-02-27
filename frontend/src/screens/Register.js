@@ -38,7 +38,7 @@ const Register = () => {
     };
   
     try {
-      let response = await fetch('http://192.168.1.110:2345/register', requestOptions);
+      let response = await fetch('http://192.168.1.107:2345/register', requestOptions);
   
       if (response.ok) {
         let res = await response.json();

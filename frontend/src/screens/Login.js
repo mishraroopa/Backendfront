@@ -5,7 +5,7 @@ import {jwtDecode} from 'jwt-decode';
 
 
 const Login = ({navigation}) => {
-  const [emailid, setemailid] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   // const navigation = useNavigation();
 
@@ -18,7 +18,7 @@ const Login = ({navigation}) => {
     myHeaders.append('Content-Type', 'application/json');
 
     var raw = JSON.stringify({
-      emailid: emailid,
+      email: email,
       password: password,
     });
 
@@ -30,7 +30,7 @@ const Login = ({navigation}) => {
     };
 
     try {
-      let response = await fetch('http://192.168.249.121:2345/login', requestOptions);
+      let response = await fetch('http://192.168.1.105:2345/login', requestOptions);
       const res = await response.json();
       console.log('rr', res);
       if (res.auth) {
@@ -41,7 +41,7 @@ const Login = ({navigation}) => {
         const decoded = jwtDecode(receivedToken)
         console.log('checking', decoded);
 
-        if (decoded.userid === 3 && receivedToken === generatedToken) {
+        if (decoded.userid === 1 && receivedToken === generatedToken) {
           navigation.navigate('Home',{
             id:decoded.userid
           });
@@ -63,9 +63,9 @@ const Login = ({navigation}) => {
             <Text style={{ color: 'black', textAlign: 'center', fontSize: 20, fontWeight: '500' }}>Login</Text>
           </View>
           <TextInput style={{ color: 'black', marginTop: '10%', marginLeft: '5%' }}
-            placeholder="Emailid"
+            placeholder="Email"
             placeholderTextColor={'black'}
-            onChangeText={(text) => setemailid(text)}
+            onChangeText={(text) => setemail(text)}
           />
           <TextInput style={{ color: 'black', marginLeft: '5%' }}
             placeholder="Password"

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const Register = () => {
   const [username, setusername] = useState('');
-  const [emailid, setemailid] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
 
@@ -25,7 +25,7 @@ const Register = () => {
   
     var raw = JSON.stringify({
       username: username,
-      emailid: emailid,
+      email: email,
       password: password,
       repeatPassword:repeatPassword
     });
@@ -38,7 +38,7 @@ const Register = () => {
     };
   
     try {
-      let response = await fetch('http://192.168.1.107:2345/register', requestOptions);
+      let response = await fetch('http://192.168.1.105:2345/register', requestOptions);
   
       if (response.ok) {
         let res = await response.json();
@@ -71,9 +71,9 @@ const Register = () => {
       />
       <TextInput
         style={{ color: 'black', marginTop: '10%', marginLeft: '5%' }}
-        placeholder="Emailid"
+        placeholder="Email"
         placeholderTextColor={'black'}
-        onChangeText={(text) => setemailid(text)}
+        onChangeText={(text) => setemail(text)}
       />
       <TextInput
         style={{ color: 'black', marginTop: '10%', marginLeft: '5%' }}

@@ -1,12 +1,17 @@
 const mysql = require("mysql");
-require("dotenv").config(); // Load variables from .env file
+require("dotenv").config(); 
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT, // Add this line to specify the port
+  port: process.env.DB_PORT, 
+  database:process.env.DB_NAME,
+  
+ 
+
+  
+ 
 });
 
 connection.connect((err) => {
@@ -17,19 +22,23 @@ connection.connect((err) => {
   console.log("Connected to MySQL");
 });
 
+ 
+connection.query("CREATE DATABASE IF NOT EXISTS signup", (error) => {
+    if (error) {
+      console.error("Error creating database:", error);
+      return;
+    }
+    console.log("Database created successfully");
+  });
 
 
-
-const userSchema = `create table if not exists users (
-  id int auto_increment primary key ,
-  username varchar(20) not null,  
-  emailId varchar(30) not null,
-  password varchar(20) not null,
-  unique key unique_email (emailId)
+const userSchema = `CREATE TABLE IF NOT EXISTS users (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    password VARCHAR(20) NOT NULL
+   
 )`;
-
-
-
 
 connection.query(userSchema, (error)=>{
   try {
@@ -42,7 +51,7 @@ connection.query(userSchema, (error)=>{
     console.log("eRROOOO", error);
   }
 })
-// connection.end();
+  // connection.end();
 
 module.exports = connection;
 

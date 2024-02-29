@@ -22,9 +22,9 @@ app.use("/user", userRouter);
 // });
 
 app.post('/login', async (req, res) => {
-    const { emailid, password } = req.body;
+    const { email, password } = req.body;
 
-    await connection.query('SELECT * FROM users WHERE emailid = ? AND password = ?', [emailid, password], (err, result) => {
+    await connection.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], (err, result) => {
         if (err) {
             console.error('Error querying database:', err);
             res.status(500).send('Internal Server Error');
@@ -51,16 +51,16 @@ app.post('/login', async (req, res) => {
 });
 
 app.post("/register", function (req, res) {
-    const { username, emailid, password } = req.body;
+    const { username, email, password } = req.body;
 
    
-    if (!username || !emailid || !password) {
+    if (!username || !email || !password) {
         return res.status(400).json({ success: false, message: 'Please provide username, email, and password' });
     }
 
    
-    const query = "INSERT INTO users (username, emailid, password) VALUES (?, ?, ?)";
-    const values = [username, emailid, password];
+    const query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    const values = [username, email, password];
 
     connection.query(query, values, (err, result) => {
         if (err) {
@@ -75,7 +75,7 @@ app.post("/register", function (req, res) {
 //profile
 
 app.get(`/profile/:id`, function(req, res) {
-    const Query = "SELECT id, username, emailid FROM users WHERE id = ?";
+    const Query = "SELECT id, username, email FROM users WHERE id = ?";
     connection.query(Query, [req.params.id], (err, results) => {
         if (err) {
             console.error('Error retrieving user profile:', err);
@@ -89,7 +89,7 @@ app.get(`/profile/:id`, function(req, res) {
             const profile = {
                 id: user.id,
                 username: user.username,
-                emailid: user.emailid
+                email: user.email
             };
             res.json(profile);
         } catch (error) {
@@ -116,11 +116,11 @@ app.post("/insert", function (req, res) {
 
 app.put("/update/:id", function (req, res) {
     const id = req.params.id;
-    const { username, emailid } = req.body; 
+    const { username, email } = req.body; 
 
-    const data = [username, emailid, id];
+    const data = [username, email, id];
 
-    connection.query(`UPDATE users SET ${username}, ${emailid} WHERE ${id}`, data, (err, result) => {
+    connection.query("UPDATE users SET username = ?, email = ? WHERE id = ?", data, (err, result) => {
         if (err) {
             console.error("Error updating user:", err);
             res.status(500).send("Internal Server Error");

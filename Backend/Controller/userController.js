@@ -3,11 +3,11 @@ const connection = require("../db")
 const registerUser =async(req, res) => {
   try {
     console.log("Request body:", req);
-    const { username, emailid, password } = req.body;
+    const { username, email, password } = req.body;
 
-    const query = `INSERT INTO users(username, emailid, password) 
+    const query = `INSERT INTO users(username, email, password) 
     VALUES(?, ?, ?)`;
-    const values = [username, emailid, password];
+    const values = [username, email, password];
 
     connection.query(query, values, (err, result) => {
       if (err) {
